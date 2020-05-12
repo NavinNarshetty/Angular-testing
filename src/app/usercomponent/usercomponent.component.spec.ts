@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UsercomponentComponent } from './usercomponent.component';
 import { UserService } from '../user.service';
+import { DataService } from '../data.service';
 
 describe('UsercomponentComponent', () => {
   let component: UsercomponentComponent;
@@ -41,5 +42,15 @@ describe('UsercomponentComponent', () => {
     const h2 = loginelement.querySelector('h2');
     expect(h2.textContent).not.toContain(component.user.name);
   })
+
+
+  it('should perform and async calll to get value as Data', async(()=>{
+    let dataService = fixture.debugElement.injector.get(DataService);
+    let spy = spyOn(dataService,'getDetails').and.returnValue(Promise.resolve('Data'))
+    fixture.detectChanges();
+    fixture.whenStable().then(()=>{
+      expect(component.data).toBe('Data')
+    })
+  }))
 
 });
